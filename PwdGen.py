@@ -1,12 +1,11 @@
 from tkinter import *
 from tkinter import messagebox
+from pathlib import Path
 import random
 import webbrowser					 
-import os							
+							
 
-#####################seperator#######################################################
 # -----FUNCTIONS
-
 def disptotal():
 	global charCount
 	global gp
@@ -16,17 +15,19 @@ def disptotal():
 	gp = ""
 	total = charCount.get()
 	lett = ("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~")
-
 	character = charVar.get()
 	number = digVar.get()
 	symbol = symVar.get() 
-	#To check is entered value is integer
+	#To check if entered value is integer
 	try:
 		total = int(total)
 	except:
 		pass
 	if isinstance(total, int) != True:
 		messagebox.showerror(title = "ERROR", message = "Enter an integer Value")
+
+	elif total == 0:
+		messagebox.showwarning(title = "Zero Not Zero", message = "All available infinite integers, yet you chose '0' \nNOTE : minimum recommended character is 10")
 
 	elif (character & number & symbol == 1):
 		for i in range(0,int(total)):
@@ -71,7 +72,7 @@ def cpy():
 	window.clipboard_clear()
 	window.clipboard_append(gp)
 	window.update()
-	messagebox.showinfo(title = "Message", message = "Generated password is copied to the clipboard.")
+	messagebox.showinfo(title = "Message", message = "Generated password is copied to the clipboard.\n\nNOTE : For security reason copied password will be removed after closing this app")
 
 # -----clear
 def clr():
@@ -95,7 +96,7 @@ def save():
 	saveSubmit.pack()
 
 def write():
-	uDir = os.environ['HOME']
+	uDir = str(Path.home())
 	uName = saveEntry.get()
 	file = open(uDir + "/Documents/password.txt", "a")
 	file.write(str(uName) + " : ")
@@ -141,7 +142,6 @@ fColor = "white"
 bodyFont = ("Courier 10 Pitch","14", "bold")
 optionFont = ("Courier 10 Pitch", "12", "italic")
 
-#####################seperator#######################################################
 # -----GUI
 # -----create main window
 window = Tk()
